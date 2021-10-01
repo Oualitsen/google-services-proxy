@@ -11,12 +11,15 @@ import com.pinitservices.proxy.model.GeocodeResponse;
 import com.pinitservices.proxy.model.PlacesResult;
 import com.pinitservices.proxy.model.cache.DirectionsCache;
 import com.pinitservices.proxy.model.cache.DistanceMatrixCache;
+import com.pinitservices.proxy.model.cache.GeocodeCache;
 import com.pinitservices.proxy.model.cache.PlacesCache;
 import com.pinitservices.proxy.model.geojson.GeoPoint;
-import com.pinitservices.proxy.repositories.DirectionsCacheRepo;
 import com.pinitservices.proxy.repositories.DistanceMatrixCacheRepo;
-import com.pinitservices.proxy.repositories.PlacesCacheRepo;
-import java.util.logging.Logger;
+import com.pinitservices.proxy.services.DirectionsCacheService;
+import com.pinitservices.proxy.services.DistanceMatrixCacheService;
+import com.pinitservices.proxy.services.GeocodeCacheService;
+import com.pinitservices.proxy.services.PlacesCacheService;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -27,47 +30,54 @@ import reactor.core.publisher.Mono;
  *
  * @author Ramdane
  */
+@Log
 @Component
 public class RemoteApiService {
 
-    private WebClient webClient;
+    private final WebClient webClient;
 
     @Autowired
-    private PlacesCacheRepo placesCacheRepo;
+    private PlacesCacheService placesCacheService;
 
     @Autowired
-    private DistanceMatrixCacheRepo distanceMatrixCacheRepo;
+    private DistanceMatrixCacheService distanceMatrixCacheService;
 
     @Autowired
-    private DirectionsCacheRepo directionsCacheRepo;
+    private DirectionsCacheService directionsCacheService;
 
     @Autowired
-    private Logger logger;
+    private GeocodeCacheService geocodeCacheService;
 
     public RemoteApiService(@Autowired WebClient webClient) {
         this.webClient = webClient;
     }
 
-    public Mono<GeocodeResponse> geocode(String placeId) {
+    public Mono<GeocodeResponse> geocode(String placeId, String language) {
 
         return webClient.get()
                 .uri(uri -> uri.path("geocode/json")
                 .queryParam("place_id", placeId)
+                .queryParam(language, language)
                 .build())
                 .retrieve()
-                .bodyToMono(GeocodeResponse.class);
+                .bodyToMono(GeocodeResponse.class)
+                .flatMap(e -> geocodeCacheService.cache(e, language))
+                .map(GeocodeCache::getResponse);
 
     }
 
     public Mono<GeocodeResponse> reverceGeocode(
-            String latlng
+            String latlng, String language
     ) {
         return webClient.get()
                 .uri(uri -> uri.path("geocode/json")
                 .queryParam("latlng", latlng)
+                .queryParam(language, language)
                 .build())
                 .retrieve()
-                .bodyToMono(GeocodeResponse.class);
+                .bodyToMono(GeocodeResponse.class)
+                .flatMap(e -> geocodeCacheService.cache(e, language))
+                .map(GeocodeCache::getResponse);
     }
 
     public Mono<PlacesResult> getPlaces(
@@ -75,8 +85,6 @@ public class RemoteApiService {
             String lang,
             String components
     ) {
-
-        logger.info("getting places from network@@");
 
         return webClient.get()
                 .uri(uri -> uri.path("place/autocomplete/json")
@@ -86,23 +94,9 @@ public class RemoteApiService {
                 .build())
                 .retrieve()
                 .bodyToMono(PlacesResult.class)
-                .doOnNext(r -> {
+                .flatMap(r -> placesCacheService.cache(r, input, lang))
+                .map(PlacesCache::getResult);
 
-                    switch (r.getStatus()) {
-                        case OK, ZERO_RESULTS -> {
-                            cache(r, input, lang);
-                        }
-                    }
-
-                });
-    }
-
-    private void cache(PlacesResult r, String input, String lang) {
-        var cache = new PlacesCache();
-        cache.setLang(lang);
-        cache.setQuery(input.toLowerCase());
-        cache.setResult(r);
-        placesCacheRepo.insert(cache).subscribe();
     }
 
     public Mono<DistanceMatrixResponse> getDistanceMatrix(
@@ -125,18 +119,8 @@ public class RemoteApiService {
                 )
                 .retrieve()
                 .bodyToMono(DistanceMatrixResponse.class)
-                .doOnNext(r -> {
-                    cache(r, origins, destinations, lang);
-                });
-    }
-
-    private void cache(DistanceMatrixResponse r, String origins, String destinations, String lang) {
-        var cache = new DistanceMatrixCache();
-        cache.setLang(lang);
-        cache.setDestinations(destinations);
-        cache.setOrigins(origins);
-        cache.setResponse(r);
-        distanceMatrixCacheRepo.insert(cache).subscribe();
+                .flatMap(r -> distanceMatrixCacheService.cache(r, origins, destinations, lang))
+                .map(DistanceMatrixCache::getResponse);
     }
 
     public Mono<DistanceMatrixResponse> getDistanceMatrixWithoutTrafficInfo(
@@ -173,30 +157,9 @@ public class RemoteApiService {
                 })
                 .retrieve()
                 .bodyToMono(DirectionResult.class)
-                .doOnNext(dr -> {
-                    switch (dr.getStatus()) {
-                        case OK, ZERO_RESULTS -> {
-                            cahce(dr, time, lang, origin, destination, withTraffic);
-                        }
-                    }
+                .flatMap(dr -> directionsCacheService.cahce(dr, time, lang, origin, destination, withTraffic))
+                .map(DirectionsCache::getResult);
 
-                });
-    }
-
-    private void cahce(DirectionResult dr, long time,
-            String lang,
-            GeoPoint origin,
-            GeoPoint destination,
-            boolean withTrafficInfo) {
-        DirectionsCache dc = new DirectionsCache();
-        dc.setLang(lang);
-        dc.setDepartureTime(time);
-        dc.setDestination(destination);
-        dc.setOrigin(origin);
-        dc.setWithTrafficInfo(withTrafficInfo);
-        dc.setResult(dr);
-
-        directionsCacheRepo.save(dc).subscribe();
     }
 
     public Mono<DirectionResult> getDirectionsWithoutTraffocInfo(

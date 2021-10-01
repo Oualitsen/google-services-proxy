@@ -8,12 +8,17 @@ package com.pinitservices.proxy.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
  * @author Ramdane
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class Route {
 
     private String copyrights;
@@ -24,45 +29,5 @@ public class Route {
     private Polyline overviewPolyline;
 
     private String summary;
-
-    public String getCopyrights() {
-        return copyrights;
-    }
-
-    public void setCopyrights(String copyrights) {
-        this.copyrights = copyrights;
-    }
-
-    public Bounds getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Bounds bounds) {
-        this.bounds = bounds;
-    }
-
-    public List<Leg> getLegs() {
-        return legs;
-    }
-
-    public void setLegs(List<Leg> legs) {
-        this.legs = legs;
-    }
-
-    public Polyline getOverviewPolyline() {
-        return overviewPolyline;
-    }
-
-    public void setOverviewPolyline(Polyline overviewPolyline) {
-        this.overviewPolyline = overviewPolyline;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
 
 }

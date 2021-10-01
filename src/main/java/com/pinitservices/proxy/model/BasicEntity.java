@@ -1,7 +1,11 @@
 package com.pinitservices.proxy.model;
 
+import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.Id;
 
+@Data
+@FieldNameConstants
 public class BasicEntity {
 
     @Id
@@ -10,27 +14,4 @@ public class BasicEntity {
     protected long creationDate;
     protected long lastUpdate;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public long getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(long creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public long getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(long lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
 }

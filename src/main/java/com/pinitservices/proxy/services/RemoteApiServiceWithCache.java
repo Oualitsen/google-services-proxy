@@ -12,8 +12,7 @@ import com.pinitservices.proxy.model.PlacesResult;
 import com.pinitservices.proxy.model.cache.PlacesCache;
 import com.pinitservices.proxy.model.geojson.GeoPoint;
 import com.pinitservices.proxy.remote.RemoteApiService;
-import com.pinitservices.proxy.repositories.PlacesCacheRepo;
-import java.util.logging.Logger;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -22,29 +21,40 @@ import reactor.core.publisher.Mono;
  *
  * @author Ramdane
  */
+@Log
 @Service
 public class RemoteApiServiceWithCache {
-
-    @Autowired
-    private Logger logger;
 
     @Autowired
     private RemoteApiService service;
 
     @Autowired
-    private PlacesCacheRepo placesCacheRepo;
+    private PlacesCacheService placesCacheService;
 
-    public Mono<GeocodeResponse> geocode(String placeId) {
+    @Autowired
+    private DistanceMatrixCacheService distanceMatrixCacheService;
 
-        return service.geocode(placeId);
+    @Autowired
+    private DirectionsCacheService directionsCacheService;
+
+    @Autowired
+    private GeocodeCacheService geocodeCacheService;
+
+    public Mono<GeocodeResponse> geocode(String placeId, String language) {
+        /**
+         * Check
+         */
+
+        //  return geocodeCacheService.findCache(placeId, language);
+        return service.geocode(placeId, language);
     }
 
-    public Mono<GeocodeResponse> reverceGeocode(String latlng) {
-        return service.reverceGeocode(latlng);
+    public Mono<GeocodeResponse> reverceGeocode(String latlng, String language) {
+        return service.reverceGeocode(latlng, language);
     }
 
     public Mono<PlacesResult> getPlaces(String input, String lang, String components) {
-        return placesCacheRepo.findFirstByQueryAndLang(input, lang).map(PlacesCache::getResult)
+        return placesCacheService.findFirstByQueryAndLang(input, lang).map(PlacesCache::getResult)
                 .switchIfEmpty(Mono.defer(() -> service.getPlaces(input, lang, components)));
 
     }

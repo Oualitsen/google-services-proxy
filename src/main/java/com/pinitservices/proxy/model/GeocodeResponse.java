@@ -6,35 +6,21 @@
 package com.pinitservices.proxy.model;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
  *
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class GeocodeResponse {
-
-    public static final String FIELD_RESULTS = "results";
-    public static final String FIELD_STATUS = "status";
 
     private List<GeocodeResult> results;
 
     private ResponseStatus status;
-
-    public List<GeocodeResult> getResults() {
-        return results;
-    }
-
-    public void setResults(List<GeocodeResult> results) {
-        this.results = results;
-    }
-
-    public ResponseStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ResponseStatus status) {
-        this.status = status;
-    }
 
 }

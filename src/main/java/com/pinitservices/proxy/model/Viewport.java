@@ -5,35 +5,22 @@
  */
 package com.pinitservices.proxy.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+
 /**
  *
- * 
+ *
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class Viewport {
-
-    public static final String FIELD_NORTHEAST = "northeast";
-    public static final String FIELD_SOUTHWEST = "southwest";
 
     private Coords northeast;
 
     private Coords southwest;
-
-    public Coords getNortheast() {
-        return northeast;
-    }
-
-    public void setNortheast(Coords northeast) {
-        this.northeast = northeast;
-    }
-
-    public Coords getSouthwest() {
-        return southwest;
-    }
-
-    public void setSouthwest(Coords southwest) {
-        this.southwest = southwest;
-    }
 
     public boolean contains(double lat, double lng) {
         return lat >= southwest.getLat() && lat <= northeast.getLat() && lng >= southwest.getLng()

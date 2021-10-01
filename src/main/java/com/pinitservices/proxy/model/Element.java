@@ -6,12 +6,17 @@
 package com.pinitservices.proxy.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
  *
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class Element {
 
     private ElementStatus status;
@@ -21,27 +26,11 @@ public class Element {
     @JsonProperty("duration_in_traffic")
     private TextValue durationInTraffic;
 
-    public ElementStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ElementStatus status) {
-        this.status = status;
-    }
-
-    public TextValue getDuration() {
-        return duration;
-    }
-
     public void setDuration(TextValue duration) {
         this.duration = duration;
         if (duration != null) {
             duration.setDistance(false);
         }
-    }
-
-    public TextValue getDistance() {
-        return distance;
     }
 
     public void setDistance(TextValue distance) {
@@ -56,10 +45,6 @@ public class Element {
         if (durationInTraffic != null) {
             durationInTraffic.setDistance(false);
         }
-    }
-
-    public TextValue getDurationInTraffic() {
-        return durationInTraffic;
     }
 
     public boolean add(Element element) {

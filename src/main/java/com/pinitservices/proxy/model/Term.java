@@ -5,39 +5,21 @@
  */
 package com.pinitservices.proxy.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+
 /**
  *
- * 
+ *
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class Term {
 
     private int offset;
     private String value;
     private int length;
-
-    public int getOffset() {
-        return offset;
-    }
-
-    public void setOffset(int offset) {
-        this.offset = offset;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public int getLength() {
-        return length;
-    }
 
 }

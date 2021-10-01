@@ -5,10 +5,17 @@
  */
 package com.pinitservices.proxy.model.geojson;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+
 /**
  *
- * 
+ *
  */
+@FieldNameConstants
+@Getter
+@Setter
 public class BasicGeoShape {
 
     public static final String TYPE_POINT = "Point";
@@ -18,13 +25,5 @@ public class BasicGeoShape {
     public static final String FIELD_COORDINATES = "coordinates";
 
     protected String type;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
 }

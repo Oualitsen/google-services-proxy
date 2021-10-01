@@ -5,38 +5,24 @@
  */
 package com.pinitservices.proxy.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+
 /**
  *
  * @author Ramdane
  */
-
+@FieldNameConstants
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Bounds {
 
     private Coords northeast;
     private Coords southwest;
-
-    public Bounds() {
-    }
-
-    public Bounds(Coords northeast, Coords southwest) {
-        this.northeast = northeast;
-        this.southwest = southwest;
-    }
-
-    public Coords getNortheast() {
-        return northeast;
-    }
-
-    public void setNortheast(Coords northeast) {
-        this.northeast = northeast;
-    }
-
-    public Coords getSouthwest() {
-        return southwest;
-    }
-
-    public void setSouthwest(Coords southwest) {
-        this.southwest = southwest;
-    }
 
 }

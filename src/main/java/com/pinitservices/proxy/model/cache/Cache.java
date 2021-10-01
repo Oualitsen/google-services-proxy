@@ -6,24 +6,23 @@
 package com.pinitservices.proxy.model.cache;
 
 import com.pinitservices.proxy.model.BasicEntity;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
  *
  * @author Ramdane
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class Cache extends BasicEntity {
 
-    public static final String FIELD_USER_ID = "userId";
+    protected String userId;
 
-    private String userId;
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
+    @Indexed
+    protected String lang;
 
 }

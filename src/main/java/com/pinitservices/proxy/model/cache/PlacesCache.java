@@ -6,53 +6,24 @@
 package com.pinitservices.proxy.model.cache;
 
 import com.pinitservices.proxy.model.PlacesResult;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
  * @author Ramdane
  */
-
+@FieldNameConstants
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PlacesCache extends Cache {
-
-    public static final String FIELD_RESULT = "result";
-    public static final String FIELD_QUERY = "query";
-    public static final String FIELD_LANG = "lang";
 
     private PlacesResult result;
     private String query;
-    private String lang;
-
-    public PlacesCache() {
-    }
-
-    public PlacesCache(PlacesResult result, String query, String lang) {
-        this.result = result;
-        this.query = query;
-        this.lang = lang;
-    }
-
-    public PlacesResult getResult() {
-        return result;
-    }
-
-    public void setResult(PlacesResult result) {
-        this.result = result;
-    }
-
-    public String getQuery() {
-        return query;
-    }
-
-    public void setQuery(String query) {
-        this.query = query;
-    }
-
-    public String getLang() {
-        return lang;
-    }
-
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
 
 }

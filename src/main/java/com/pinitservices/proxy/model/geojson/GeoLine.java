@@ -7,30 +7,28 @@ package com.pinitservices.proxy.model.geojson;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
- * 
+ *
+ *
  */
+@FieldNameConstants
+@Getter
+@Setter
 public class GeoLine extends BasicGeoShape {
 
     private List<Double[]> coordinates;
-
-    public List<Double[]> getCoordinates() {
-        return coordinates;
-
-    }
-
-    public void setCoordinates(List<Double[]> coordinates) {
-        this.coordinates = coordinates;
-    }
 
     public void addCoordinates(double lng, double lat) {
         if (coordinates == null) {
             coordinates = new ArrayList<>();
         }
 
-        coordinates.add(new Double[] { lng, lat });
+        coordinates.add(new Double[]{lng, lat});
     }
 
 }

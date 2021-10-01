@@ -11,22 +11,21 @@ import com.pinitservices.proxy.model.geojson.GeoPoint;
 import com.pinitservices.proxy.model.geojson.GeoPolygon;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 
 /**
  *
  *
  */
+@FieldNameConstants
+@Getter
+@Setter
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GeocodeResult extends GeoPolygon {
-
-    public static final String FIELD_ADDRESS_COMPONENTS = "addressComponents";
-    public static final String FIELD_FORMATTED_ADDRESS = "formattedAddress";
-    public static final String FIELD_GEOMETRY = "geometry";
-    public static final String FIELD_PLACE_ID = "placeId";
-    public static final String FIELD__PLACE_ID = "place_id";
-    public static final String FIELD_TYPES = "types";
-    public static final String FIELD_CENTRE = "center";
 
     @JsonProperty("address_components")
     private List<AddressComponent> addressComponents;
@@ -36,32 +35,13 @@ public class GeocodeResult extends GeoPolygon {
 
     private Geometry geometry;
 
+    @GeoSpatialIndexed
     private GeoPoint center;
 
     @JsonProperty("place_id")
     private String placeId;
 
     private List<String> types;
-
-    public List<AddressComponent> getAddressComponents() {
-        return addressComponents;
-    }
-
-    public void setAddressComponents(List<AddressComponent> addressComponents) {
-        this.addressComponents = addressComponents;
-    }
-
-    public String getFormattedAddress() {
-        return formattedAddress;
-    }
-
-    public void setFormattedAddress(String formattedAddress) {
-        this.formattedAddress = formattedAddress;
-    }
-
-    public Geometry getGeometry() {
-        return geometry;
-    }
 
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
@@ -70,39 +50,11 @@ public class GeocodeResult extends GeoPolygon {
                 center = new GeoPoint();
             }
             final Coords coord = geometry.getLocation();
-            double[] coords = { coord.getLng(), coord.getLat() };
+            double[] coords = {coord.getLng(), coord.getLat()};
             center.setCoordinates(coords);
         } else {
             center = null;
         }
-    }
-
-    public String getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
-    }
-
-    public List<String> getTypes() {
-        return types;
-    }
-
-    public void setTypes(List<String> types) {
-        this.types = types;
-    }
-
-    public boolean contains(double lat, double lng) {
-        return geometry.contains(lat, lng);
-    }
-
-    public GeoPoint getCenter() {
-        return center;
-    }
-
-    public void setCenter(GeoPoint center) {
-        this.center = center;
     }
 
 }

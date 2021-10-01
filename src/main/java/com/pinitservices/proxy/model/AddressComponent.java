@@ -8,17 +8,19 @@ package com.pinitservices.proxy.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
  *
  */
+@FieldNameConstants
+@Getter
+@Setter
 
 public class AddressComponent {
-
-    public static final String FIELD_LONG_NAME = "longName";
-    public static final String FIELD_SHORT_NAME = "shortName";
-    public static final String FIELD_TYPES = "types";
 
     @JsonProperty("long_name")
     private String longName;
@@ -27,29 +29,5 @@ public class AddressComponent {
     private String shortName;
 
     private List<String> types;
-
-    public String getLongName() {
-        return longName;
-    }
-
-    public void setLongName(String longName) {
-        this.longName = longName;
-    }
-
-    public String getShortName() {
-        return shortName;
-    }
-
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
-    public List<String> getTypes() {
-        return types;
-    }
-
-    public void setTypes(List<String> types) {
-        this.types = types;
-    }
 
 }

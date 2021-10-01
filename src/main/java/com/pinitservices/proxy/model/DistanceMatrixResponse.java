@@ -10,12 +10,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
  *
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class DistanceMatrixResponse {
 
     private ResponseStatus status;
@@ -32,46 +37,6 @@ public class DistanceMatrixResponse {
     private List<Element> elements;
 
     private List<Row> rows;
-
-    public ResponseStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ResponseStatus status) {
-        this.status = status;
-    }
-
-    public List<String> getOriginalAddresses() {
-        return originalAddresses;
-    }
-
-    public void setOriginalAddresses(List<String> originalAddresses) {
-        this.originalAddresses = originalAddresses;
-    }
-
-    public List<String> getDestinationAddresses() {
-        return destinationAddresses;
-    }
-
-    public void setDestinationAddresses(List<String> destinationAddresses) {
-        this.destinationAddresses = destinationAddresses;
-    }
-
-    public List<Row> getRows() {
-        return rows;
-    }
-
-    public void setRows(List<Row> rows) {
-        this.rows = rows;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
 
     /**
      * Returns true if all requested a distances have results

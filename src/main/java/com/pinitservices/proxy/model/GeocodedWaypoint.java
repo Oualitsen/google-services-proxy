@@ -8,12 +8,17 @@ package com.pinitservices.proxy.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
  * @author Ramdane
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class GeocodedWaypoint {
 
     @JsonProperty("geocoder_status")
@@ -23,29 +28,5 @@ public class GeocodedWaypoint {
     private String placeId;
 
     private List<String> types;
-
-    public GeocodedWaypointStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(GeocodedWaypointStatus status) {
-        this.status = status;
-    }
-
-    public String getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
-    }
-
-    public List<String> getTypes() {
-        return types;
-    }
-
-    public void setTypes(List<String> types) {
-        this.types = types;
-    }
 
 }

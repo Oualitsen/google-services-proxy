@@ -5,21 +5,19 @@
  */
 package com.pinitservices.proxy.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+
 /**
  *
  * @author Ramdane
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class Polyline {
 
     private String points;
-
-    public void setPoints(String points) {
-        this.points = points;
-    }
-
-    public String getPoints() {
-        return points;
-    }
 
 }

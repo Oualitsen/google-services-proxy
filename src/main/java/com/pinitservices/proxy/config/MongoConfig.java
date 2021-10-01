@@ -1,4 +1,3 @@
-
 package com.pinitservices.proxy.config;
 
 import java.util.Collection;
@@ -31,6 +30,11 @@ public class MongoConfig extends AbstractReactiveMongoConfiguration {
     @Override
     protected Collection<String> getMappingBasePackages() {
         return Collections.singleton("com.pinitservices.proxy");
+    }
+
+    @Override
+    protected boolean autoIndexCreation() {
+        return true;
     }
 
 }

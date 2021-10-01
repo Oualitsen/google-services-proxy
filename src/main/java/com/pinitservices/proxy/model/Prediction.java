@@ -9,12 +9,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
  *
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Prediction {
 
@@ -35,69 +40,5 @@ public class Prediction {
     private List<Term> terms;
 
     private List<String> types;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public List<MatchedSubstring> getMatchedSubStrings() {
-        return matchedSubStrings;
-    }
-
-    public void setMatchedSubStrings(List<MatchedSubstring> matchedSubStrings) {
-        this.matchedSubStrings = matchedSubStrings;
-    }
-
-    public String getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
-    }
-
-    public String getReference() {
-        return reference;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
-    public StructuredFormatting getStructuredFormattings() {
-        return structuredFormattings;
-    }
-
-    public void setStructuredFormattings(StructuredFormatting structuredFormattings) {
-        this.structuredFormattings = structuredFormattings;
-    }
-
-    public List<Term> getTerms() {
-        return terms;
-    }
-
-    public void setTerms(List<Term> terms) {
-        this.terms = terms;
-    }
-
-    public List<String> getTypes() {
-        return types;
-    }
-
-    public void setTypes(List<String> types) {
-        this.types = types;
-    }
 
 }

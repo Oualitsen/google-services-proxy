@@ -7,86 +7,39 @@ package com.pinitservices.proxy.model.cache;
 
 import com.pinitservices.proxy.model.DirectionResult;
 import com.pinitservices.proxy.model.geojson.GeoPoint;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
  *
  * @author Ramdane
  */
-
+@FieldNameConstants
+@Getter
+@Setter
+@NoArgsConstructor
 public class DirectionsCache extends Cache {
-
-    public static final String FIELD_WITH_TRAFFIC = "withTrafficInfo";
-    public static final String FIELD_LANG = "lang";
-    public static final String FIELD_DEPARTURE_TIME = "departureTime";
-    public static final String FIELD_RESULT = "result";
-    public static final String FIELD_ORIGIN = "origin";
-    public static final String FIELD_DESTINATION = "destination";
 
     private DirectionResult result;
     private boolean withTrafficInfo;
 
-    private String lang;
     private long departureTime;
 
+    @GeoSpatialIndexed
     private GeoPoint origin;
-    private GeoPoint destination;
 
-    public DirectionsCache() {
-    }
+    @GeoSpatialIndexed
+    private GeoPoint destination;
 
     public DirectionsCache(DirectionResult result, boolean withTrafficInfo, String lang, long departureTime) {
         this.result = result;
         this.withTrafficInfo = withTrafficInfo;
         this.lang = lang;
         this.departureTime = departureTime;
-    }
-
-    public boolean isWithTrafficInfo() {
-        return withTrafficInfo;
-    }
-
-    public void setWithTrafficInfo(boolean withTrafficInfo) {
-        this.withTrafficInfo = withTrafficInfo;
-    }
-
-    public String getLang() {
-        return lang;
-    }
-
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
-
-    public long getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(long departureTime) {
-        this.departureTime = departureTime;
-    }
-
-    public DirectionResult getResult() {
-        return result;
-    }
-
-    public void setResult(DirectionResult result) {
-        this.result = result;
-    }
-
-    public GeoPoint getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(GeoPoint origin) {
-        this.origin = origin;
-    }
-
-    public GeoPoint getDestination() {
-        return destination;
-    }
-
-    public void setDestination(GeoPoint destination) {
-        this.destination = destination;
     }
 
 }

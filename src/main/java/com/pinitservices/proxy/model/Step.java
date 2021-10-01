@@ -6,12 +6,17 @@
 package com.pinitservices.proxy.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
  * @author Ramdane
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class Step {
 
     private TextValue distance;
@@ -29,61 +34,5 @@ public class Step {
 
     @JsonProperty("travel_mode")
     private String travelMode;
-
-    public TextValue getDistance() {
-        return distance;
-    }
-
-    public void setDistance(TextValue distance) {
-        this.distance = distance;
-    }
-
-    public TextValue getDuration() {
-        return duration;
-    }
-
-    public void setDuration(TextValue duration) {
-        this.duration = duration;
-    }
-
-    public Coords getStartLocation() {
-        return startLocation;
-    }
-
-    public void setStartLocation(Coords startLocation) {
-        this.startLocation = startLocation;
-    }
-
-    public Coords getEndLocation() {
-        return endLocation;
-    }
-
-    public void setEndLocation(Coords endLocation) {
-        this.endLocation = endLocation;
-    }
-
-    public Polyline getPolyline() {
-        return polyline;
-    }
-
-    public void setPolyline(Polyline polyline) {
-        this.polyline = polyline;
-    }
-
-    public String getHtmlInstructions() {
-        return HtmlInstructions;
-    }
-
-    public void setHtmlInstructions(String HtmlInstructions) {
-        this.HtmlInstructions = HtmlInstructions;
-    }
-
-    public String getTravelMode() {
-        return travelMode;
-    }
-
-    public void setTravelMode(String travelMode) {
-        this.travelMode = travelMode;
-    }
 
 }

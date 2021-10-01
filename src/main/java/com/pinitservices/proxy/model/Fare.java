@@ -5,21 +5,20 @@
  */
 package com.pinitservices.proxy.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+
 /**
  *
- * 
+ *
  */
+@FieldNameConstants
+@Getter
+@Setter
 
 public class Fare extends TextValue {
 
     private String currency;
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
 
 }

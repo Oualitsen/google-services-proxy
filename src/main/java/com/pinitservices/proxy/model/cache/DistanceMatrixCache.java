@@ -7,20 +7,20 @@ package com.pinitservices.proxy.model.cache;
 
 import com.pinitservices.proxy.model.DistanceMatrixResponse;
 import com.pinitservices.proxy.model.geojson.GeoPoint;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
  *
  * @author Ramdane
  */
+@FieldNameConstants
+@Getter
+@Setter
 public class DistanceMatrixCache extends Cache {
-
-    public static final String FIELD_RESPONSE = "response";
-    public static final String FIELD_ORIGINS = "origins";
-    public static final String FIELD_DESTINATIONS = "destinations";
-    public static final String FIELD_ORIGIN = "origin";
-    public static final String FIELD_DESTINATION = "destination";
-    public static final String FIELD_TIME = "time";
-    public static final String FIELD_WITH_TRAFFIC = "withoutTraffic";
 
     private DistanceMatrixResponse response;
     private String origins;
@@ -28,75 +28,14 @@ public class DistanceMatrixCache extends Cache {
     private long time;
     private boolean withoutTraffic;
 
+    @GeoSpatialIndexed
     private GeoPoint origin;
+    @GeoSpatialIndexed
     private GeoPoint destination;
-
-    private String lang;
-
-    public DistanceMatrixResponse getResponse() {
-        return response;
-    }
-
-    public void setResponse(DistanceMatrixResponse response) {
-        this.response = response;
-    }
-
-    public String getOrigins() {
-        return origins;
-    }
-
-    public void setOrigins(String origins) {
-        this.origins = origins;
-        initPoints();
-    }
-
-    public String getDestinations() {
-        return destinations;
-    }
 
     public void setDestinations(String destinations) {
         this.destinations = destinations;
         initPoints();
-    }
-
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-    }
-
-    public void setWithoutTraffic(boolean withoutTraffic) {
-        this.withoutTraffic = withoutTraffic;
-    }
-
-    public boolean isWithoutTraffic() {
-        return withoutTraffic;
-    }
-
-    public GeoPoint getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(GeoPoint origin) {
-        this.origin = origin;
-    }
-
-    public GeoPoint getDestination() {
-        return destination;
-    }
-
-    public void setDestination(GeoPoint destination) {
-        this.destination = destination;
-    }
-
-    public String getLang() {
-        return lang;
-    }
-
-    public void setLang(String lang) {
-        this.lang = lang;
     }
 
     private void initPoints() {

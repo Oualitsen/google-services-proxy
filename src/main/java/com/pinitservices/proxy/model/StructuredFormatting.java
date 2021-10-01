@@ -8,12 +8,17 @@ package com.pinitservices.proxy.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
  *
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class StructuredFormatting {
 
     @JsonProperty("main_text")
@@ -24,29 +29,5 @@ public class StructuredFormatting {
 
     @JsonProperty("main_text_matched_substrings")
     private List<Term> mainTextMatchedSubstrings;
-
-    public String getMainText() {
-        return mainText;
-    }
-
-    public void setMainText(String mainText) {
-        this.mainText = mainText;
-    }
-
-    public String getSecondaryText() {
-        return secondaryText;
-    }
-
-    public void setSecondaryText(String secondaryText) {
-        this.secondaryText = secondaryText;
-    }
-
-    public List<Term> getMainTextMatchedSubstrings() {
-        return mainTextMatchedSubstrings;
-    }
-
-    public void setMainTextMatchedSubstrings(List<Term> mainTextMatchedSubstrings) {
-        this.mainTextMatchedSubstrings = mainTextMatchedSubstrings;
-    }
 
 }

@@ -5,41 +5,24 @@
  */
 package com.pinitservices.proxy.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+
 /**
  *
  *
  */
-
+@FieldNameConstants
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Coords {
-
-    public static final String FIELD_LAT = "lat";
-    public static final String FIELD_LNG = "lng";
 
     private double lat;
     private double lng;
-
-    public Coords() {
-    }
-
-    public Coords(double lat, double lng) {
-        this.lat = lat;
-        this.lng = lng;
-    }
-
-    public double getLat() {
-        return lat;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLng() {
-        return lng;
-    }
-
-    public void setLng(double lng) {
-        this.lng = lng;
-    }
 
 }

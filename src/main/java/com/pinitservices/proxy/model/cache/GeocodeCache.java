@@ -9,47 +9,32 @@ import java.util.List;
 
 import com.pinitservices.proxy.model.GeocodeResponse;
 import com.pinitservices.proxy.model.GeocodeResult;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
  * @author Ramdane
  */
-
+@FieldNameConstants
+@Getter
+@Setter
+@NoArgsConstructor
 public class GeocodeCache extends Cache {
-
-    public static final String FIELD_RESPONSE = "response";
-    public static final String FIELD_RESULT = "result";
 
     private GeocodeResponse response;
 
     private GeocodeResult result;
 
-    public GeocodeCache() {
-
-    }
-
-    public GeocodeCache(GeocodeResponse response) {
+    public GeocodeCache(GeocodeResponse response, String language) {
         this.response = response;
+        this.lang = language;
         final List<GeocodeResult> results = response.getResults();
         if (results != null && !results.isEmpty()) {
             result = results.get(0);
         }
-    }
-
-    public void setResponse(GeocodeResponse response) {
-        this.response = response;
-    }
-
-    public GeocodeResponse getResponse() {
-        return response;
-    }
-
-    public GeocodeResult getResult() {
-        return result;
-    }
-
-    public void setResult(GeocodeResult result) {
-        this.result = result;
     }
 
 }

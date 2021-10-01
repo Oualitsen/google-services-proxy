@@ -5,10 +5,17 @@
  */
 package com.pinitservices.proxy.model.geojson;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+
 /**
  *
  *
  */
+@FieldNameConstants
+@Getter
+@Setter
 public class GeoPoint extends BasicGeoShape {
 
     private double[] coordinates;
@@ -22,14 +29,6 @@ public class GeoPoint extends BasicGeoShape {
         coordinates = new double[2];
         coordinates[0] = lng;
         coordinates[1] = lat;
-    }
-
-    public double[] getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(double[] coordinates) {
-        this.coordinates = coordinates;
     }
 
     public String toUri() {

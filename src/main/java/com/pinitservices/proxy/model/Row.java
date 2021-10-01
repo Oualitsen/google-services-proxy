@@ -7,23 +7,20 @@ package com.pinitservices.proxy.model;
 
 import java.util.Iterator;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  *
- * 
+ *
  */
-
+@FieldNameConstants
+@Getter
+@Setter
 public class Row {
 
     private List<Element> elements;
-
-    public List<Element> getElements() {
-        return elements;
-    }
-
-    public void setElements(List<Element> elements) {
-        this.elements = elements;
-    }
 
     public boolean isFull() {
         if (elements == null) {
