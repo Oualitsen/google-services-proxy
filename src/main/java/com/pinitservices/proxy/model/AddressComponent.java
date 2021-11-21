@@ -19,7 +19,6 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 @Getter
 @Setter
-
 public class AddressComponent {
 
     @JsonProperty("long_name")

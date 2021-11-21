@@ -2,6 +2,7 @@ package com.pinitservices.proxy.config;
 
 import java.net.URI;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.ClientRequest;
@@ -18,17 +19,21 @@ public class WebClientConfig {
     /**
      * Testing
      */
-    private static final String key = "AIzaSyAHVFlX0bnarFsf6YvyzyRDwlyR6yHjZgQ";
+    @Value("${key}")
+    private String key;
 
     @Bean
     public WebClient webClient() {
         return WebClient.builder().baseUrl("https://maps.googleapis.com/maps/api/")
-                //.baseUrl("http://localhost:8080")
                 .filter(this::filter).build();
     }
 
     private Mono<ClientResponse> filter(ClientRequest request, ExchangeFunction fn) {
         final String url = request.url().toString();
+
+        if (key == null) {
+            throw new NullPointerException("Google Api key is required");
+        }
 
         final String newUrl;
 

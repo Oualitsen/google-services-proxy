@@ -25,4 +25,13 @@ public class Cache extends BasicEntity {
     @Indexed
     protected String lang;
 
+    public void setLang(String lang) {
+        if (lang == null) {
+            this.lang = null;
+        } else {
+            this.lang = lang.toLowerCase();
+        }
+
+    }
+
 }

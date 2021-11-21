@@ -30,7 +30,7 @@ public class CacheHit extends BasicEntity {
     private boolean hit;
 
     private String userId;
-    private String cachetype;
+    private String cacheType;
     private String type;
 
 }

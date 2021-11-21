@@ -13,16 +13,15 @@ import lombok.experimental.FieldNameConstants;
  *
  *
  */
-@FieldNameConstants
 @Getter
 @Setter
+@FieldNameConstants
 public class BasicGeoShape {
 
     public static final String TYPE_POINT = "Point";
     public static final String TYPE_POLYGON = "Polygon";
 
     public static final String FIELD_TYPE = "type";
-    public static final String FIELD_COORDINATES = "coordinates";
 
     protected String type;
 

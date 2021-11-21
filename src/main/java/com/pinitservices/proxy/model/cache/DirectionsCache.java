@@ -1,23 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pinitservices.proxy.model.cache;
 
 import com.pinitservices.proxy.model.DirectionResult;
 import com.pinitservices.proxy.model.geojson.GeoPoint;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author Ramdane
  */
+@Document
 @FieldNameConstants
 @Getter
 @Setter
@@ -29,10 +27,10 @@ public class DirectionsCache extends Cache {
 
     private long departureTime;
 
-    @GeoSpatialIndexed
+    @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
     private GeoPoint origin;
 
-    @GeoSpatialIndexed
+    @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
     private GeoPoint destination;
 
     public DirectionsCache(DirectionResult result, boolean withTrafficInfo, String lang, long departureTime) {

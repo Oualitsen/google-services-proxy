@@ -14,6 +14,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 
 /**
@@ -23,7 +24,6 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 @FieldNameConstants
 @Getter
 @Setter
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GeocodeResult extends GeoPolygon {
 
@@ -35,7 +35,7 @@ public class GeocodeResult extends GeoPolygon {
 
     private Geometry geometry;
 
-    @GeoSpatialIndexed
+    @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
     private GeoPoint center;
 
     @JsonProperty("place_id")

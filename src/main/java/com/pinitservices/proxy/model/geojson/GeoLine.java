@@ -16,9 +16,9 @@ import lombok.experimental.FieldNameConstants;
  *
  *
  */
-@FieldNameConstants
 @Getter
 @Setter
+@FieldNameConstants
 public class GeoLine extends BasicGeoShape {
 
     private List<Double[]> coordinates;
@@ -27,8 +27,7 @@ public class GeoLine extends BasicGeoShape {
         if (coordinates == null) {
             coordinates = new ArrayList<>();
         }
-
-        coordinates.add(new Double[]{lng, lat});
+        coordinates.add(new Double[] { lng, lat });
     }
 
 }
