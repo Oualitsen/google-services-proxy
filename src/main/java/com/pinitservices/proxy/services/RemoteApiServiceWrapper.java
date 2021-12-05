@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pinitservices.proxy.services;
 
 import lombok.extern.java.Log;
@@ -17,7 +12,6 @@ import com.pinitservices.proxy.model.cache.GeocodeCache;
 import com.pinitservices.proxy.model.cache.PlacesCache;
 import com.pinitservices.proxy.model.geojson.GeoPoint;
 import com.pinitservices.proxy.remote.RemoteApiService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,9 +24,6 @@ import reactor.core.publisher.Mono;
 @Log
 @Service
 public class RemoteApiServiceWrapper {
-
-    @Value("${cacheEnabled}")
-    private boolean enabled;
 
     @Autowired
     private RemoteApiService service;

@@ -1,6 +1,5 @@
 package com.pinitservices.proxy.services.repositories;
 
-import com.pinitservices.proxy.model.cache.DirectionsCache;
 import com.pinitservices.proxy.model.cache.DistanceMatrixCache;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;

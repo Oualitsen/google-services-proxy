@@ -2,7 +2,6 @@ package com.pinitservices.proxy.services;
 
 import com.pinitservices.proxy.model.DistanceMatrixResponse;
 import com.pinitservices.proxy.model.ResponseStatus;
-import com.pinitservices.proxy.model.cache.DirectionsCache;
 import com.pinitservices.proxy.model.cache.DistanceMatrixCache;
 import com.pinitservices.proxy.model.geojson.GeoPoint;
 import lombok.experimental.Delegate;

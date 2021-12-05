@@ -1,11 +1,9 @@
 package com.pinitservices.proxy.controllers;
 
 import com.pinitservices.proxy.model.Coords;
-import com.pinitservices.proxy.model.DirectionResult;
 import com.pinitservices.proxy.model.DistanceMatrixResponse;
 import com.pinitservices.proxy.model.cache.DistanceMatrixCache;
 import com.pinitservices.proxy.model.geojson.GeoPoint;
-import com.pinitservices.proxy.services.DirectionsCacheService;
 import com.pinitservices.proxy.services.RemoteApiServiceWrapper;
 import com.pinitservices.proxy.services.repositories.DistanceMatrixCacheRepository;
 import java.util.List;
@@ -25,7 +23,7 @@ import reactor.core.publisher.Mono;
  */
 @Log
 @RestController
-@RequestMapping("distance")
+@RequestMapping("/maps/distance")
 public class DistanceController {
 
     @Autowired

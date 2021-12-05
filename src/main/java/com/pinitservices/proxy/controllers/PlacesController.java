@@ -3,7 +3,6 @@ package com.pinitservices.proxy.controllers;
 import com.pinitservices.proxy.model.Coords;
 import com.pinitservices.proxy.model.PlacesResult;
 import com.pinitservices.proxy.model.ResponseStatus;
-import com.pinitservices.proxy.services.GeocodeCacheService;
 import com.pinitservices.proxy.services.RemoteApiServiceWrapper;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +18,17 @@ import reactor.core.publisher.Mono;
 
 @Log
 @RestController
-@RequestMapping("places")
+@RequestMapping("/maps/places")
 public class PlacesController {
 
     @Autowired
     private RemoteApiServiceWrapper service;
 
-    @Autowired
-    private GeocodeCacheService geocodeCacheService;
-
     @PostMapping()
     public Mono<PlacesResult> getPlaces(@RequestBody String request,
             @RequestParam(value = "lang", defaultValue = "en") String lang,
             @RequestParam(value = "component", required = false) String component) {
+        log.info("request = " + request);
         return service.getPlaces(request, lang, component);
 
     }

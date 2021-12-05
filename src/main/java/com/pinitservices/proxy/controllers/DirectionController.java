@@ -3,7 +3,6 @@ package com.pinitservices.proxy.controllers;
 import com.pinitservices.proxy.model.Coords;
 import com.pinitservices.proxy.model.DirectionResult;
 import com.pinitservices.proxy.model.geojson.GeoPoint;
-import com.pinitservices.proxy.services.DirectionsCacheService;
 import com.pinitservices.proxy.services.RemoteApiServiceWrapper;
 import java.util.List;
 import lombok.extern.java.Log;
@@ -21,7 +20,7 @@ import reactor.core.publisher.Mono;
  */
 @Log
 @RestController
-@RequestMapping("directions")
+@RequestMapping("/maps/directions")
 public class DirectionController {
 
     @Autowired
