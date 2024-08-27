@@ -6,6 +6,8 @@ import com.pinitservices.proxy.model.Prediction;
 import com.pinitservices.proxy.model.ResponseStatus;
 import com.pinitservices.proxy.services.RemoteApiServiceWrapper;
 import java.util.List;
+import com.pinitservices.proxy.model.ResponseStatus;
+import com.pinitservices.proxy.services.RemoteApiServiceWrapper;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,11 +29,12 @@ public class PlacesController {
     private RemoteApiServiceWrapper service;
 
     @PostMapping()
-    public Mono<List<Prediction>> getPlacesPridictions(@RequestBody String request,
+    public Mono<PlacesResult> getPlaces(@RequestBody String request,
             @RequestParam(value = "lang", defaultValue = "en") String lang,
             @RequestParam(value = "component", required = false) String component) {
+        log.info("request = " + request);
+        return service.getPlaces(request, lang, component);
 
-        return service.getPlaces(request, lang, component).map(PlacesResult::getPredictions);
     }
 
     @PostMapping("reverse-geocode")

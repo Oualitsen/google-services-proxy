@@ -55,8 +55,7 @@ public class DirectionsCacheService extends CacheService<DirectionsCache> {
         return dc;
     }
 
-    public Mono<DirectionsCache> findCache(GeoPoint origin, GeoPoint destination, String lang, boolean trafic,
-            long when) {
+    public Mono<DirectionsCache> findCache(GeoPoint origin, GeoPoint destination, String lang, boolean trafic, long when) {
 
         /**
          * @TODO apply to when

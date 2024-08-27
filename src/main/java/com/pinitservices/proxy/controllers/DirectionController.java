@@ -30,10 +30,14 @@ public class DirectionController {
     public Mono<DirectionResult> getDirections(@RequestBody List<Coords> list,
             @RequestParam(value = "lang", defaultValue = "en") String lang,
             @RequestParam(value = "traffic", defaultValue = "false") boolean traffic,
-            @RequestParam(value = "when", defaultValue = "-1") long when) {
+            @RequestParam(value = "when", defaultValue = "-1") long when
+    ) {
+
         var origin = new GeoPoint(list.get(0).getLat(), list.get(0).getLng());
         var destination = new GeoPoint(list.get(1).getLat(), list.get(1).getLng());
+
         return service.getDirections(origin, destination, traffic, when, lang);
+
     }
 
 }

@@ -31,7 +31,10 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+<<<<<<< HEAD
         
+=======
+>>>>>>> 5a184c33f303e6b083dd91349a60954274f47d42
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

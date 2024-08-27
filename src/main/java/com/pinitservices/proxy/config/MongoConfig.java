@@ -13,22 +13,29 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
 
-import lombok.extern.java.Log;
+@Configuration
+public class MongoConfig extends AbstractReactiveMongoConfiguration {
 
-@Log
-// @Configuration
-public class MongoConfig {
+    @Override
+    protected String getDatabaseName() {
+        return "proxyCache";
+    }
 
-    @Value("${mongo.url}")
-    private String url;
-    @Value("${mongo.dbname}")
-    private String dbName;
-
+    @Bean
     public MongoClient mongoClient() {
-        log.info("connection string " + url + dbName);
-        ConnectionString connectionString = new ConnectionString(url + dbName);
+        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017/" + getDatabaseName());
         var mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).build();
         return MongoClients.create(mongoClientSettings);
+    }
+
+    @Override
+    protected Collection<String> getMappingBasePackages() {
+        return Collections.singleton("com.pinitservices.proxy");
+    }
+
+    @Override
+    protected boolean autoIndexCreation() {
+        return true;
     }
 
 }

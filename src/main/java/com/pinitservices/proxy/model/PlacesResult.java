@@ -1,4 +1,3 @@
-
 package com.pinitservices.proxy.model;
 
 import java.util.List;
