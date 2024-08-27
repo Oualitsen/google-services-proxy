@@ -3,28 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pinitservices.proxy.model.geojson;
+package com.pinitservices.proxy.googleApiModel;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
-import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  *
  */
+
 @Getter
 @Setter
-@Slf4j
 @FieldNameConstants
-@ToString
-public class BasicGeoShape {
+public class GeocodeResponse {
 
-    public static final String TYPE_POINT = "Point";
-    public static final String TYPE_POLYGON = "Polygon";
-
-    protected String type;
-
+    private List<GeocodeResult> results;
+    private ResponseStatus status;
 
 }

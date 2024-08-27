@@ -5,29 +5,32 @@
  */
 package com.pinitservices.proxy.model.geojson;
 
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Ramdane
  *
  */
+
 @Getter
 @Setter
+@Slf4j
 @FieldNameConstants
 public class GeoPoint extends BasicGeoShape {
 
     private double[] coordinates;
 
     public GeoPoint() {
+
         type = TYPE_POINT;
+        coordinates = new double[2];
+
     }
 
     public GeoPoint(double lat, double lng) {
         this();
-        coordinates = new double[2];
         coordinates[0] = lng;
         coordinates[1] = lat;
     }
@@ -36,17 +39,16 @@ public class GeoPoint extends BasicGeoShape {
         return coordinates[1];
     }
 
+    public void setLat(double lat) {
+        coordinates[1] = lat;
+    }
+
     public double getLng() {
         return coordinates[0];
     }
 
-    public String toUri() {
-        return String.format("%s,%s", coordinates[1], coordinates[0]);
-    }
-
-    public static GeoPoint parse(String csv) {
-        List<Double> list = List.of(csv.split(",")).stream().map(Double::parseDouble).toList();
-        return new GeoPoint(list.get(0), list.get(1));
+    public void setLng(double lng) {
+        coordinates[0] = lng;
     }
 
 }

@@ -1,11 +1,11 @@
 package com.pinitservices.proxy.controllers;
 
-import com.pinitservices.proxy.model.Coords;
-import com.pinitservices.proxy.model.DistanceMatrixResponse;
-import com.pinitservices.proxy.model.cache.DistanceMatrixCache;
+import com.pinitservices.proxy.googleApiModel.Coords;
+import com.pinitservices.proxy.googleApiModel.DistanceMatrixResponse;
+import com.pinitservices.proxy.model.DistanceMatrixCache;
 import com.pinitservices.proxy.model.geojson.GeoPoint;
-import com.pinitservices.proxy.services.RemoteApiServiceWrapper;
-import com.pinitservices.proxy.services.repositories.DistanceMatrixCacheRepository;
+import com.pinitservices.proxy.services.GoogleApiServiceWrapper;
+import com.pinitservices.proxy.repositories.DistanceMatrixCacheRepository;
 import java.util.List;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,34 +27,23 @@ import reactor.core.publisher.Mono;
 public class DistanceController {
 
     @Autowired
-    private RemoteApiServiceWrapper service;
+    private GoogleApiServiceWrapper service;
 
     @Autowired
     private DistanceMatrixCacheRepository repository;
 
     @PostMapping
-    public Mono<DistanceMatrixResponse> getDistance(@RequestBody List<Coords> list,
+    public DistanceMatrixResponse getDistance(@RequestBody List<Coords> list,
             @RequestParam(value = "lang", defaultValue = "en") String lang,
-            @RequestParam(value = "traffic", defaultValue = "false") boolean traffic,
-            @RequestParam(value = "when", defaultValue = "-1") long when
-    ) {
-
-        var origin = new GeoPoint(list.get(0).getLat(), list.get(0).getLng());
-        var destination = new GeoPoint(list.get(1).getLat(), list.get(1).getLng());
-
-        return service.getDistanceMatrix(origin, destination, traffic, when, lang);
-
-    }
-
-    @PostMapping("test")
-    public Flux<DistanceMatrixCache> test(@RequestBody List<Coords> list, @RequestParam(value = "lang", defaultValue = "en") String lang,
             @RequestParam(value = "traffic", defaultValue = "false") boolean traffic,
             @RequestParam(value = "when", defaultValue = "-1") long when) {
 
-        var origin = new GeoPoint(list.get(0).getLat(), list.get(0).getLng());
+        var origin = list.get(0);
+        var destination = list.get(1);
 
-        return repository.findCacheOrigin(lang, origin.getLat(), origin.getLng(), 300, traffic);
+        return service.getDistanceMatrix(origin, destination, when + "", lang, true, traffic, "null");
 
     }
+
 
 }

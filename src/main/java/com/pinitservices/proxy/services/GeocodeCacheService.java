@@ -1,67 +1,112 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.pinitservices.proxy.services;
 
-import com.pinitservices.proxy.model.GeocodeResponse;
-import com.pinitservices.proxy.model.GeocodeResult;
-import com.pinitservices.proxy.model.ResponseStatus;
-import com.pinitservices.proxy.model.cache.Cache;
-import com.pinitservices.proxy.model.cache.GeocodeCache;
-import lombok.experimental.Delegate;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import com.pinitservices.proxy.googleApiModel.GeocodeResponse;
+import com.pinitservices.proxy.googleApiModel.GeocodeResult;
+import com.pinitservices.proxy.googleApiModel.Geometry;
+import com.pinitservices.proxy.model.CacheHit;
+import com.pinitservices.proxy.model.GeocodeCache;
+import com.pinitservices.proxy.model.MyCircle;
+import com.pinitservices.proxy.repositories.GeocodeCacheRepository;
+import com.pinitservices.proxy.utils.MongoDBUtils;
+
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
-import com.pinitservices.proxy.services.repositories.GeocodeCacheRepository;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  *
- * @author Ramdane
  */
+@Slf4j
 @Service
-public class GeocodeCacheService extends CacheService<GeocodeCache> {
+public class GeocodeCacheService extends CacheServiceBase<GeocodeCache> {
 
-    @Value("${maxDistance}")
-    private int maxDistance;
 
-    @Delegate
-    private final GeocodeCacheRepository repository;
+    private final CacheHitService hitService;
 
-    public GeocodeCacheService(GeocodeCacheRepository repository, ReactiveMongoTemplate template) {
-        super(repository, template);
-        this.repository = repository;
+
+    public GeocodeCacheService(GeocodeCacheRepository repository,
+                               CacheHitService hitService,
+                               @Value("${googleApiCache}") boolean enabled,
+                               MongoTemplate mongoTemplate
+    ) {
+        super(GeocodeCache.class, repository, enabled,  mongoTemplate);
+        this.hitService = hitService;
+    }
+
+    @PostConstruct
+    public void init() {
+
 
     }
 
-    public Mono<GeocodeCache> cache(GeocodeResponse response, String lang) {
+    public boolean cache(GeocodeResponse response, String userId) {
+        if (!enabled) {
+            return false;
+        }
+        return switch (response.getStatus()) {
+            case OK, ZERO_RESULTS -> {
 
-        return Mono.just(cacheEnabled).filter(c -> c).map(c -> response)
-                .filter(cache -> cache.getStatus() == ResponseStatus.OK)
-                .map(r -> new GeocodeCache(r, lang))
-                .flatMap(this::save)
-                .switchIfEmpty(Mono.defer(() -> Mono.just(new GeocodeCache(response, lang))));
+                final GeocodeCache cache = new GeocodeCache(response);
+                save(cache);
+                hitService.save(new CacheHit(cache.getId(), false, userId, "Geocode"));
+                yield true;
+            }
+            default -> false;
+
+        };
 
     }
 
-    public Mono<GeocodeCache> findCache(String placeId, String lang) {
+    public GeocodeResponse findCache(String placeId, String userId) {
+        if (!enabled) {
+            return null;
+        }
+        final var query = Query.query(Criteria.where(MongoDBUtils.cat(GeocodeCache.Fields.response,
+                GeocodeResponse.Fields.results, GeocodeResult.Fields.placeId)).is(placeId));
+        final GeocodeCache cache = findOne(query);
 
-        return template.findOne(new Query(Criteria.where(
-                String.format("%s.%s", GeocodeCache.Fields.result, GeocodeResult.Fields.placeId)
-        ).is(placeId).and(Cache.Fields.lang).is(lang)),
-                GeocodeCache.class);
+        if (cache != null) {
+            hitService.save(new CacheHit(cache.getId(), false, userId, "Geocode"));
+            final GeocodeResponse response = cache.getResponse();
+            if (response.getResults() != null) {
+                response.setResults(response.getResults().stream().filter(e -> placeId.equals(e.getPlaceId())).toList());
+            }
+            return response;
+        }
+        return null;
 
     }
 
-    /**
-     * used for reverse geocode
-     *
-     * @param lat
-     * @param lng
-     * @param lang
-     * @return
-     */
-    public Mono<GeocodeCache> findCache(double lat, double lng, String lang) {
+    public GeocodeResponse findCache(double lat, double lng, String userId) {
+        log.info("######### lat = " + lat + ", lng = " + lng);
+        if (!enabled) {
+            return null;
+        }
 
-        return Mono.just(cacheEnabled).filter(c -> c).flatMapMany(c -> findCache(lang, lat, lng, maxDistance)).next();
+        final var query = Query.query(
+                Criteria.where(MongoDBUtils.cat(GeocodeCache.Fields.result, GeocodeResult.Fields.geometry, Geometry.Fields.location))
+                        .withinSphere(new MyCircle(lat, lng, 300))
+        );
+
+
+        final GeocodeCache findOne = findOne(query);
+
+        if (findOne != null) {
+            hitService.save(new CacheHit(findOne.getId(), false, userId, "Geocode"));
+            return findOne.getResponse();
+        }
+        return null;
+
     }
+
+
 }

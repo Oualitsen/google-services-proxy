@@ -1,0 +1,42 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.pinitservices.proxy.googleApiModel;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pinitservices.proxy.model.geojson.GeoPolygon;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+
+import java.util.List;
+
+/**
+ *
+ */
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = false)
+@FieldNameConstants
+public class GeocodeResult extends GeoPolygon {
+
+    @JsonProperty("address_components")
+    private List<AddressComponent> addressComponents;
+
+    @JsonProperty("formatted_address")
+    private String formattedAddress;
+
+    private Geometry geometry;
+
+    @JsonProperty("place_id")
+    private String placeId;
+
+    private List<String> types;
+
+}
