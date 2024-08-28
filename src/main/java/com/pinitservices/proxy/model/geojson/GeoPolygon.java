@@ -1,14 +1,26 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.pinitservices.proxy.model.geojson;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ */
 
 @Getter
 @Setter
+@Slf4j
 @FieldNameConstants
 public class GeoPolygon extends BasicGeoShape {
 
@@ -23,7 +35,9 @@ public class GeoPolygon extends BasicGeoShape {
             coordinates = new ArrayList<>();
             coordinates.add(new ArrayList<>());
         }
-        coordinates.get(0).add(new Double[] { coords[0], coords[1] });
+
+        coordinates.get(0).add(new Double[]{coords[0], coords[1]});
+
     }
 
 }

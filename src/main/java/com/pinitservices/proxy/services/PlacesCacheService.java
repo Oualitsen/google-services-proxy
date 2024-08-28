@@ -1,49 +1,79 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.pinitservices.proxy.services;
 
-import com.pinitservices.proxy.model.PlacesResult;
-import com.pinitservices.proxy.model.ResponseStatus;
-import com.pinitservices.proxy.model.cache.PlacesCache;
-import lombok.experimental.Delegate;
+import com.pinitservices.proxy.googleApiModel.PlacesResult;
+import com.pinitservices.proxy.model.CacheHit;
+import com.pinitservices.proxy.model.PlacesCache;
+import com.pinitservices.proxy.repositories.PalacesCacheRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
-import com.pinitservices.proxy.services.repositories.PlacesCacheRepository;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+
 
 /**
  *
- * @author Ramdane
  */
+@Slf4j
 @Service
-public class PlacesCacheService extends CacheService<PlacesCache> {
+public class PlacesCacheService extends CacheServiceBase<PlacesCache> {
 
-    @Delegate
-    private final PlacesCacheRepository repository;
+    private final CacheHitService hitService;
 
-    public PlacesCacheService(PlacesCacheRepository repository, ReactiveMongoTemplate template) {
-        super(repository, template);
-        this.repository = repository;
+    public PlacesCacheService(PalacesCacheRepository repository,
+                              CacheHitService hitService,
+                              @Value("${googleApiCache}") boolean enabled,
+                              MongoTemplate mongoTemplate) {
+        super(PlacesCache.class, repository, enabled, mongoTemplate);
+        this.hitService = hitService;
     }
 
-    public Mono<PlacesCache> cache(PlacesResult response, String input, String lang) {
 
-        return Mono.just(cacheEnabled)
-                .filter(c -> c)
-                .map(c -> response)
-                .filter(r -> r.getStatus() == ResponseStatus.OK)
-                .map(r -> from(response, input, lang)).flatMap(this::save).switchIfEmpty(Mono.defer(() -> Mono.just(from(response, input, lang))));
+    public boolean cache(PlacesResult result, String query, String lang, String userId) {
+        if (!enabled) {
+            return false;
+        }
+        try {
+            return switch (result.getStatus()) {
+                case OK, ZERO_RESULTS -> {
+                    PlacesCache cache = new PlacesCache(result, query.toLowerCase(), lang);
+                    cache.setUserId(userId);
+                    save(cache);
+                    hitService.save(new CacheHit(cache.getId(), false, userId, "Places"));
+                    yield true;
+                }
+                default -> false;
+
+            };
+
+        } catch (Exception ex) {
+            log.error("Could not insert cache", ex);
+        }
+        return false;
 
     }
 
-    public static PlacesCache from(PlacesResult response, String input, String lang) {
-        var cache = new PlacesCache();
+    public PlacesResult findCache(String query, String lang, String userId) {
+        if (!enabled) {
+            return null;
+        }
+        final PlacesCache cache = findOne(
 
-        cache.setQuery(input.toLowerCase());
-        cache.setResult(response);
-        return cache;
-    }
-
-    public Mono<PlacesCache> findCache(String input, String lang) {
-        return Mono.just(cacheEnabled).filter(c -> c).flatMap(c -> repository.findFirstByQueryAndLang(input.toLowerCase(), lang.toLowerCase()));
+                Query.query(
+                        Criteria.where(PlacesCache.Fields.query).is(query.toLowerCase())
+                                .and(PlacesCache.Fields.lang).is(lang)
+                ));
+        if (cache != null) {
+            hitService.save(new CacheHit(cache.getId(), true, userId, "Places"));
+            return cache.getResult();
+        }
+        return null;
     }
 
 }

@@ -1,0 +1,19 @@
+version: "3.3"
+
+services:
+  app:
+    image: publik:$(GIT_COMMIT)
+    ports:
+      - "8480:8080"
+    volumes:
+      - /var/log/publik-server-dev:/var/log/publik-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - MONGO_URL=mongodb://main_mongo_db:27017/
+    networks:
+      - utils-net
+
+networks:
+  utils-net:
+    name: utils-net
+    external: true

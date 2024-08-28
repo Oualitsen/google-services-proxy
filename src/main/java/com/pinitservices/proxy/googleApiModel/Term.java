@@ -1,0 +1,22 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.pinitservices.proxy.googleApiModel;
+
+
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ *
+ */
+
+@Getter
+@Setter
+public class Term {
+    private int offset;
+    private String value;
+    private int length;
+}
