@@ -13,7 +13,6 @@ import com.pinitservices.proxy.model.GeocodeCache;
 import com.pinitservices.proxy.model.MyCircle;
 import com.pinitservices.proxy.repositories.GeocodeCacheRepository;
 import com.pinitservices.proxy.utils.MongoDBUtils;
-
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +37,7 @@ public class GeocodeCacheService extends CacheServiceBase<GeocodeCache> {
                                @Value("${googleApiCache}") boolean enabled,
                                MongoTemplate mongoTemplate
     ) {
-        super(GeocodeCache.class, repository, enabled,  mongoTemplate);
+        super(GeocodeCache.class, repository, enabled, mongoTemplate);
         this.hitService = hitService;
     }
 

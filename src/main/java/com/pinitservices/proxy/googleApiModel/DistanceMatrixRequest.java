@@ -5,9 +5,7 @@
  */
 package com.pinitservices.proxy.googleApiModel;
 
-import com.pinitservices.proxy.model.Coordinates;
 import com.pinitservices.proxy.utils.CoordsUtils;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,17 +19,17 @@ import java.util.List;
 @Setter
 public class DistanceMatrixRequest {
 
-    private List<Coordinates> origins;
-    private List<Coordinates> destinations;
+    private List<Coords> origins;
+    private List<Coords> destinations;
 
-    public void addOrigin(Coordinates coordinates) {
+    public void addOrigin(Coords coordinates) {
         if (origins == null) {
             origins = new ArrayList<>();
         }
         origins.add(coordinates);
     }
 
-    public void addDest(Coordinates coordinates) {
+    public void addDest(Coords coordinates) {
         if (destinations == null) {
             destinations = new ArrayList<>();
         }

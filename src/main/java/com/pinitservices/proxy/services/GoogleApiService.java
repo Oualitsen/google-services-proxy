@@ -6,14 +6,12 @@
 package com.pinitservices.proxy.services;
 
 
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.service.annotation.GetExchange;
-
 import com.pinitservices.proxy.googleApiModel.DirectionResult;
 import com.pinitservices.proxy.googleApiModel.DistanceMatrixResponse;
 import com.pinitservices.proxy.googleApiModel.GeocodeResponse;
 import com.pinitservices.proxy.googleApiModel.PlacesResult;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.service.annotation.GetExchange;
 
 /**
  * @author ramdane

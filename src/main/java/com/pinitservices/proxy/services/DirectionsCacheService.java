@@ -10,10 +10,9 @@ import com.pinitservices.proxy.googleApiModel.DirectionResult;
 import com.pinitservices.proxy.model.CacheHit;
 import com.pinitservices.proxy.model.DirectionsCache;
 import com.pinitservices.proxy.model.MyCircle;
+import com.pinitservices.proxy.model.geojson.GeoPoint;
 import com.pinitservices.proxy.repositories.DirectionsCacheRepository;
 import com.pinitservices.proxy.utils.CoordsUtils;
-import com.pinitservices.proxy.model.Coordinates;
-import com.pinitservices.proxy.model.geojson.GeoPoint;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -49,7 +48,7 @@ public class DirectionsCacheService extends CacheServiceBase<DirectionsCache> {
         if (!enabled) {
             return false;
         }
-        
+
         switch (result.getStatus()) {
             case OK, ZERO_RESULTS -> {
                 final DirectionsCache cache = new DirectionsCache(result, withTrafficInfo, lang, departureTime);
@@ -109,12 +108,12 @@ public class DirectionsCacheService extends CacheServiceBase<DirectionsCache> {
                 distanceSum = d;
             }
         }
-        if(cache != null) {
+        if (cache != null) {
             hitService.save(new CacheHit(cache.getId(), true, userId, "directions"));
             return cache.getResult();
         }
         return null;
-        
+
     }
 
 

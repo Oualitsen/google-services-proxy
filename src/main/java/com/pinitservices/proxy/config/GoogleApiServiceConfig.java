@@ -5,11 +5,7 @@
  */
 package com.pinitservices.proxy.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pinitservices.proxy.services.GoogleApiService;
-
-import lombok.SneakyThrows;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;

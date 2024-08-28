@@ -12,7 +12,6 @@ import com.pinitservices.proxy.model.DistanceMatrixCache;
 import com.pinitservices.proxy.model.MyCircle;
 import com.pinitservices.proxy.repositories.DistanceMatrixCacheRepository;
 import com.pinitservices.proxy.utils.CoordsUtils;
-import com.pinitservices.proxy.model.Coordinates;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -45,7 +44,7 @@ public class DistanceMatrixCacheService extends CacheServiceBase<DistanceMatrixC
                                       @Value("${googleApiCache}") boolean enabled,
                                       MongoTemplate mongoTemplate
     ) {
-        super(DistanceMatrixCache.class, repository, enabled,  mongoTemplate);
+        super(DistanceMatrixCache.class, repository, enabled, mongoTemplate);
         this.minDistance = minDistance;
         this.cacheTimeOut = cacheTimeOut;
         this.hitService = hitService;

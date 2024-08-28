@@ -1,7 +1,6 @@
 package com.pinitservices.proxy.config;
 
 import com.mongodb.client.MongoClient;
-
 import lombok.extern.java.Log;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -24,11 +23,9 @@ public class MyMongoTemplate extends MongoTemplate {
 
     @Override
     public <T> T findAndModify(Query query, UpdateDefinition update, Class<T> entityClass,
-            String collectionName) {
+                               String collectionName) {
         return super.findAndModify(query, update, DEFAULT_OPTIONS, entityClass, collectionName);
     }
-
-
 
 
 }

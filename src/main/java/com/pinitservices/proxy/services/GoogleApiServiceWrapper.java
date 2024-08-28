@@ -1,23 +1,11 @@
 package com.pinitservices.proxy.services;
 
+import com.pinitservices.proxy.exceptions.InvalidDistanceMatrixResult;
+import com.pinitservices.proxy.googleApiModel.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import com.pinitservices.proxy.exceptions.InvalidDistanceMatrixResult;
-import com.pinitservices.proxy.googleApiModel.Coords;
-import com.pinitservices.proxy.googleApiModel.DirectionResult;
-import com.pinitservices.proxy.googleApiModel.DistanceMatrixResponse;
-import com.pinitservices.proxy.googleApiModel.Element;
-import com.pinitservices.proxy.googleApiModel.ElementStatus;
-import com.pinitservices.proxy.googleApiModel.GeocodeResponse;
-import com.pinitservices.proxy.googleApiModel.PlacesResult;
-import com.pinitservices.proxy.googleApiModel.ResponseStatus;
-import com.pinitservices.proxy.googleApiModel.Row;
-import com.pinitservices.proxy.googleApiModel.TextValue;
-import com.pinitservices.proxy.model.Coordinates;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -107,17 +95,14 @@ public class GoogleApiServiceWrapper {
         if (cache != null) {
             return cache;
         }
-        var resp = traffic ?  service.getDistanceMatrix(origins.getUriFormat(), 
-        destinations.getUriFormat(),
-         time, apiKey,
-                lang): service.getDistanceMatrix(origins.getUriFormat(), 
-        destinations.getUriFormat(),
-         time, apiKey,
+        var resp = service.getDistanceMatrix(origins.getUriFormat(),
+                destinations.getUriFormat(),
+                time, apiKey,
                 lang);
         cacheCollection.cache(resp, origins, destinations, time, true, userId);
         if (check) {
             if (resp.getRows().stream().filter(
-                    r -> r.getElements().stream().filter(elem -> elem.getStatus() != ElementStatus.OK).count() == 0)
+                            r -> r.getElements().stream().filter(elem -> elem.getStatus() != ElementStatus.OK).count() == 0)
                     .count() == 0) {
                 return resp;
             } else {
@@ -194,21 +179,7 @@ public class GoogleApiServiceWrapper {
         return getDistanceMatrix(origins, destinations, 0, lang, userId);
     }
 
-    private String toUri(List<Coordinates> coordinates) {
-        if (coordinates.size() == 1) {
-            return coordinates.get(0).getUriFormat();
-        }
-        StringBuilder sb = new StringBuilder();
-        int i = 0, size = coordinates.size();
-        for (Coordinates c : coordinates) {
-            sb.append(c.getUriFormat());
-            i++;
-            if (i <= size - 1) {
-                sb.append("|");
-            }
-        }
-        return sb.toString();
-    }
+
 
     public DirectionResult getDirections(
             final Coords origin,

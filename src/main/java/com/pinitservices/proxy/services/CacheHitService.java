@@ -7,7 +7,6 @@ package com.pinitservices.proxy.services;
 
 import com.pinitservices.proxy.model.CacheHit;
 import com.pinitservices.proxy.repositories.CacheHitRepository;
-import com.pinitservices.proxy.services.BasicEntityService;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 

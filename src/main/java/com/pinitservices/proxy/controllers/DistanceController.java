@@ -2,23 +2,15 @@ package com.pinitservices.proxy.controllers;
 
 import com.pinitservices.proxy.googleApiModel.Coords;
 import com.pinitservices.proxy.googleApiModel.DistanceMatrixResponse;
-import com.pinitservices.proxy.model.DistanceMatrixCache;
-import com.pinitservices.proxy.model.geojson.GeoPoint;
-import com.pinitservices.proxy.services.GoogleApiServiceWrapper;
 import com.pinitservices.proxy.repositories.DistanceMatrixCacheRepository;
-import java.util.List;
+import com.pinitservices.proxy.services.GoogleApiServiceWrapper;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
- *
  * @author Ramdane
  */
 @Log
@@ -34,9 +26,9 @@ public class DistanceController {
 
     @PostMapping
     public DistanceMatrixResponse getDistance(@RequestBody List<Coords> list,
-            @RequestParam(value = "lang", defaultValue = "en") String lang,
-            @RequestParam(value = "traffic", defaultValue = "false") boolean traffic,
-            @RequestParam(value = "when", defaultValue = "-1") long when) {
+                                              @RequestParam(value = "lang", defaultValue = "en") String lang,
+                                              @RequestParam(value = "traffic", defaultValue = "false") boolean traffic,
+                                              @RequestParam(value = "when", defaultValue = "-1") long when) {
 
         var origin = list.get(0);
         var destination = list.get(1);

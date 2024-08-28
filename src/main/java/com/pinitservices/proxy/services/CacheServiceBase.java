@@ -7,7 +7,6 @@ package com.pinitservices.proxy.services;
 
 import com.pinitservices.proxy.model.Cache;
 import com.pinitservices.proxy.repositories.CacheRepository;
-import com.pinitservices.proxy.services.BasicEntityService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 

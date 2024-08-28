@@ -6,9 +6,7 @@
 package com.pinitservices.proxy.model;
 
 
-
 import com.pinitservices.proxy.BasicEntity;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

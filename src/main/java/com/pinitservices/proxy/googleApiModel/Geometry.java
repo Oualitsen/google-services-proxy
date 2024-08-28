@@ -6,7 +6,6 @@
 package com.pinitservices.proxy.googleApiModel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pinitservices.proxy.model.Coordinates;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -30,7 +29,7 @@ public class Geometry {
     private Viewport viewport;
 
 
-    public boolean contains(Coordinates coordinates) {
+    public boolean contains(Coords coordinates) {
         return viewport.contains(coordinates);
     }
 

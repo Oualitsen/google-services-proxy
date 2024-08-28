@@ -1,10 +1,9 @@
 package com.pinitservices.proxy.repositories;
 
+import com.pinitservices.proxy.BasicEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
-
-import com.pinitservices.proxy.BasicEntity;
 
 @NoRepositoryBean
 public interface BasicEntityRepository<T extends BasicEntity> extends MongoRepository<T, String> {

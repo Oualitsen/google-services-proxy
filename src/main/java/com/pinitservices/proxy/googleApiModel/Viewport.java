@@ -5,7 +5,6 @@
  */
 package com.pinitservices.proxy.googleApiModel;
 
-import com.pinitservices.proxy.model.Coordinates;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,9 +19,9 @@ public class Viewport {
     private Coords southwest;
 
 
-    public boolean contains(Coordinates coordinates) {
-        double lat = coordinates.getLatitude();
-        double lng = coordinates.getLongitude();
+    public boolean contains(Coords coordinates) {
+        double lat = coordinates.lat();
+        double lng = coordinates.lng();
         return lat >= southwest.lat() && lat <= northeast.lat()
                 && lng >= southwest.lng() && lng <= northeast.lng();
     }
